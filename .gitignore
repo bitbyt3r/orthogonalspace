@@ -1,0 +1,13 @@
+README.md
+.crossbar/*
+*.pyc
+__pycache__/
+database.db
+venv/
+mapthree.db
+dist/
+orthogonalspace.egg-info/
+build/
+*.rpm
+web/
+.crossbar/node.pid

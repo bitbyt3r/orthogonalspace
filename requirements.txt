@@ -1,0 +1,9 @@
+docopt
+passlib
+aiohttp
+autobahn
+pyasn1
+aiopg
+yoyo-migrations
+autobahn_sync
+sqlalchemy
