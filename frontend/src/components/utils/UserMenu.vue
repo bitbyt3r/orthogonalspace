@@ -21,7 +21,6 @@
         </md-button>
 
         <md-menu-content>
-            <router-link to="/profile" class="md-button md-raised md-primary" @click="closeMenu()">Profile Settings</router-link>
             <md-button md-menu-trigger class="md-raised md-accent" @click="logout()">Logout</md-button>
         </md-menu-content>
       </md-menu>
@@ -64,8 +63,6 @@
 </style>
 
 <script>
-import profile from "../Profile"
-
     export default {
         name: 'user-menu',
         data() {
@@ -75,7 +72,6 @@ import profile from "../Profile"
             }
         },
         components: {
-          profile
         },
         computed: {
             logged_in() {
