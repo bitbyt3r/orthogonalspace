@@ -1,10 +1,10 @@
 {
   "name": "orthogonalspace",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "A space bridge game",
   "author": "Mark Murnane <mark@hackafe.net>",
   "contributors": [
-    "Dylan Whichard <dylan@whichard.com>",
+    "Dylan Whichard <dylan@whichard.com>"
   ],
   "private": true,
   "scripts": {
