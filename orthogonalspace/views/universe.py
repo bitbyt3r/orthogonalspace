@@ -18,4 +18,4 @@ async def universe_create(name, parameters):
 
 @register('universe.list', options={'details_arg': 'details'})
 async def universe_list():
-    return [{"name": name} for universe in universes]
+    return [{"name": universe.name} for universe in universes]
