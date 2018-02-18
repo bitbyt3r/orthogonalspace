@@ -41,12 +41,12 @@
         components: {
         },
         methods: {
-            createFaction() {
+            createShip() {
                 var self = this;
                 this.$validator.validateAll()
                 .then((isValidated) => {
                     if(!isValidated) return;
-                    this.$wamp.call('ship.create', [], {name: this.name, parameters: {}, universe: this.$route.params.universeid, faction: this.$route.params.factionid}).then(function(res) {
+                    this.$wamp.call('ship.create', [], {name: this.name, faction_id: this.$route.params.factionid}).then(function(res) {
                         if (res.success) {
                             self.notify("Created " + self.name + ".");
                             self.$router.push({name: "join"});
