@@ -28,6 +28,7 @@ import functools
 import txaio
 import sys
 import docopt
+import ode
 
 import orthogonalspace.database
 import orthogonalspace.models
@@ -36,12 +37,60 @@ import orthogonalspace.configure
 from orthogonalspace.configure import config
 import orthogonalspace.serializer
 
+GAME_SPEED = 1.0
+TICK_RATE = 30
+STEP_SIZE = 1 / TICK_RATE * GAME_SPEED
+
 log = txaio.make_logger()
 txaio.start_logging()
 running = True
 
 serializer.JsonObjectSerializer.serialize = orthogonalspace.serializer.serialize
 serializer.JsonObjectSerializer.unserialize = orthogonalspace.serializer.unserialize
+
+
+class Universe:
+    def __init__(self):
+        self.world = ode.World()
+        self.space = ode.SimpleSpace()
+        self.entities = []
+
+    def add_entity(self, entity):
+        self.entities.append(entity)
+
+
+def collide_callback(args, obj1: ode.GeomObject, obj2: ode.GeomObject):
+    if ode.areConnected(obj1.getBody(), obj2.getBody()):
+        pass
+
+    print("COLLISION!!!!")
+
+    contacts = ode.collide(obj1, obj2)
+
+    world, joint_group = args
+
+    for c in contacts:
+        j = ode.ContactJoint(world, joint_group, c)
+        j.attach(obj1.getBody(), obj2.getBody())
+
+
+async def step(universes, joint_group):
+    for universe in universes:
+        universe.space.collide((universe.world, joint_group), collide_callback)
+        universe.world.step(STEP_SIZE)
+
+        for entity in universe.entities:
+            await entity.tick(STEP_SIZE)
+
+        joint_group.empty()
+
+
+async def game_loop(loop, universes):
+    joint_group = ode.JointGroup()
+
+    start = loop.time()
+    await step(universes, joint_group)
+    await asyncio.sleep(max(0, 1 / TICK_RATE - loop.time() - start))
 
 
 def main():
@@ -82,21 +131,25 @@ def main():
 
     orthogonalspace.configure.get_config(arguments.get("config", "/etc/orthogonalspace/conf.json"))
 
-    while running:
-        try:
-            task = orthogonalspace.database.initialize(config=config, callback=start)
-            loop.run_until_complete(task)
-        except concurrent.futures._base.CancelledError as e:
-            if not running:
-                pass
-            else:
-                print("Unexpected cancelled future: {}".format(e))
-        except RuntimeError as e:
-            if not running:
-                pass
-            else:
-                # Usually means the connection to the crossbar server was lost.
-                print("Runtime Error: {}".format(e))
+    async def run_database():
+        while running:
+            try:
+                await orthogonalspace.database.initialize(config=config, callback=start)
+            except concurrent.futures._base.CancelledError as e:
+                if not running:
+                    pass
+                else:
+                    print("Unexpected cancelled future: {}".format(e))
+            except RuntimeError as e:
+                if not running:
+                    pass
+                else:
+                    # Usually means the connection to the crossbar server was lost.
+                    print("Runtime Error: {}".format(e))
+
+    universes = [Universe()]
+
+    loop.run_until_complete(asyncio.gather(run_database(), game_loop(loop, universes)))
 
     loop.close()
 
