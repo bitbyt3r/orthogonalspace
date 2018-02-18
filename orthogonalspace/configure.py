@@ -21,7 +21,8 @@ def get_config(path=""):
     elif not path:
         sys.exit("{} is not a file. Could not load config.".format(path))
     try:
-        newconfig = json.load(path)
+        with open(path, "r") as FILE:
+            newconfig = json.load(FILE)
     except:
         sys.exit("Could not parse config file: {}".format(path))
     config.update(newconfig)

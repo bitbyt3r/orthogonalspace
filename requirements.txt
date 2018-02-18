@@ -7,3 +7,4 @@ aiopg
 yoyo-migrations
 autobahn_sync
 sqlalchemy
+aiosqlite

@@ -3,7 +3,7 @@ all: run
 run: venv
 	export RPM_MODE=false; \
 	venv/bin/python setup.py install
-	venv/bin/orthogonalspace
+	venv/bin/orthogonalspace -c contrib/conf.json
 
 cli: venv
 	venv/bin/python cli.py

@@ -7,13 +7,14 @@ Usage:
   {0} --help
   {0} --version
   {0} [--config=<file>] [-v | -vv | -vvv | -vvvv | -q]
+
 Options:
   -h --help           Show this text.
      --version        Print the version.
   -v --verbose        Set verbosity.
   -q --quiet          Suppress output.
   -c --config=<file>  Path to config file[default: /etc/orthogonalspace/conf.json]
-  
+
 """
 
 from autobahn.asyncio.component import Component, run
@@ -63,7 +64,7 @@ def main():
 
     arguments = docopt.docopt(__doc__.format(sys.argv[0]), version="2.0.0")
     arguments = {k.lstrip('--'): v for k, v in arguments.items()}
-    
+
     verbose = arguments.get("verbose", 0)
     quiet = arguments.get("quiet", 0)
     level = "error"
@@ -98,7 +99,7 @@ def main():
                 print("Runtime Error: {}".format(e))
 
     loop.close()
-    
+
 async def start(config=None, engine=None):
     loop = asyncio.get_event_loop()
 
@@ -139,6 +140,6 @@ async def start(config=None, engine=None):
         loop.stop()
 
     await component.start(loop)
-    
+
 if __name__ == "__main__":
     main()
