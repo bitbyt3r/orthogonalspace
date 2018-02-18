@@ -33,6 +33,9 @@
                 </md-table-body>
             </md-table>
         </md-table-card>
+        <router-link tag="md-button" to="ship/create" append class="md-fab md-fab-bottom-right">
+            <md-icon>add</md-icon>
+        </router-link>
     </div>
 </template>
 
@@ -51,9 +54,9 @@
         },
         mounted: function() {
             var self = this;
-            this.$wamp.call('ships.list', [], {universe: this.$route.params.universeid, faction: this.$route.params.factionid}).then(function(res) {
+            this.$wamp.call('faction.list_ships', [this.$route.params.factionid]).then(function(res) {
                 if (res) {
-                    self.ships = res;
+                    self.ships = res.ships;
                     self.loaded = true;
                 }
             });

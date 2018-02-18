@@ -46,10 +46,10 @@
                 this.$validator.validateAll()
                 .then((isValidated) => {
                     if(!isValidated) return;
-                    this.$wamp.call('faction.create', [], {name: this.name, parameters: {}, universe: this.$route.params.universeid}).then(function(res) {
+                    this.$wamp.call('faction.create', [], {name: this.name, universe_id: this.$route.params.universeid}).then(function(res) {
                         if (res.success) {
                             self.notify("Created " + self.name + ".");
-                            self.$router.push({name: "join"});
+                            self.$router.push({name: "universe", params: {id: self.$route.params.universeid}});
                         } else {
                             self.notify("Failed to create the faction: " + res.reason);
                         }

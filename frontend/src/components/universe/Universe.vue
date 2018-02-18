@@ -33,6 +33,9 @@
                 </md-table-body>
             </md-table>
         </md-table-card>
+        <router-link tag="md-button" to="faction/create" append class="md-fab md-fab-bottom-right">
+            <md-icon>add</md-icon>
+        </router-link>
     </div>
 </template>
 
@@ -51,9 +54,10 @@
         },
         mounted: function() {
             var self = this;
-            this.$wamp.call('factions.list', [], {universe: this.$route.params.universeid}).then(function(res) {
+            this.$wamp.call('universe.list_factions', [this.$route.params.universeid]).then(function(res) {
                 if (res) {
-                    self.factions = res;
+                    console.log(res);
+                    self.factions = res.factions;
                     self.loaded = true;
                 }
             });

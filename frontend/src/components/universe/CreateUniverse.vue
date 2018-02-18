@@ -57,7 +57,7 @@
                     this.$wamp.call('universe.create', [], {name: this.name, parameters: {}}).then(function(res) {
                         if (res.success) {
                             self.notify("BANG! Created " + self.name + ".");
-                            self.$router.push({name: "join"});
+                            self.$router.push({name: "universe", params: {id: res.id}});
                         } else {
                             self.notify("Failed to create the universe: " + res.reason);
                         }

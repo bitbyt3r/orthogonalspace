@@ -37,28 +37,24 @@ export default new Router({
                     component: CreateUniverse
                 },
                 {
+                    path: 'universe/:universeid/faction/create',
+                    name: 'createfaction',
+                    component: CreateFaction
+                },
+                {
                     path: 'universe/:universeid',
                     name: 'universe',
-                    component: Universe,
-                    children: [
-                        {
-                            path: 'faction/create',
-                            name: 'createfaction',
-                            component: CreateFaction
-                        }
-                    ]
+                    component: Universe
+                },
+                {
+                    path: 'faction/:factionid/ship/create',
+                    name: 'createship',
+                    component: CreateShip
                 },
                 {
                     path: 'faction/:factionid',
                     name: 'faction',
                     component: Faction,
-                    children: [
-                        {
-                            path: 'ship/create',
-                            name: 'createship',
-                            component: CreateShip
-                        }
-                    ]
                 },
                 {
                     path: 'ship/:shipid',
