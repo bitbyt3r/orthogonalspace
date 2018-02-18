@@ -106,6 +106,7 @@ async def user_register(engine, details=None, username="", fullname="", password
         if not auth_backend:
             log.error("Could not locate Local auth backend while registering user {}".format(username))
             return {"success": False}
+        print(auth_backend)
         await conn.execute(User.insert().values(username=username, realname=fullname, auth_data=hashstr, email=email, auth_backend=auth_backend.uuid))
         return {"success": True}
 

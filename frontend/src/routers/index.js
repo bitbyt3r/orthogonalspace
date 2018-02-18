@@ -5,6 +5,9 @@ import MainLayout from '../components/layouts/Main.vue'
 import Join from '../components/Join.vue'
 import Create from '../components/Create.vue'
 import Register from '../components/Register.vue'
+import Info from '../components/universe/Info.vue'
+import Play from '../components/universe/Play.vue'
+import GameLayout from '../components/layouts/Game.vue'
 
 Vue.use(Router)
 
@@ -34,6 +37,22 @@ export default new Router({
                     path: 'register',
                     name: 'register',
                     component: Register
+                }
+            ]
+        },
+        {
+            path: '/universe/:name',
+            component: GameLayout,
+            children: [
+                {
+                    path: '',
+                    name: 'info',
+                    component: Info
+                },
+                {
+                    path: 'play',
+                    name: 'play',
+                    component: Play
                 }
             ]
         }

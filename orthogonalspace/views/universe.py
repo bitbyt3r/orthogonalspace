@@ -13,7 +13,7 @@ async def universe_create(engine, name=None, parameters=None):
 
     universes.append(new_universe)
 
-    return len(universes)-1
+    return {"success": True, "id": len(universes) - 1, "reason": ""}
 
 
 @register('universe.list')

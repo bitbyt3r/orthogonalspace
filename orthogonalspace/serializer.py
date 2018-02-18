@@ -4,7 +4,7 @@ import six
 import uuid
 from json import scanner
 from json.decoder import scanstring
-import aiopg
+import aiopg.sa
 import types
 
 conversions = {

@@ -1,7 +1,5 @@
 <template>
     <div id="app-inner">
-        <navbar> </navbar>
-
         <router-view> </router-view>
 
         <md-snackbar :md-position="'bottom center'" ref="snackbar" :md-duration="4000">
@@ -20,8 +18,6 @@
 </style>
 
 <script>
-    import Navbar from 'components/utils/Navbar.vue'
-
     export default {
         data() {
             return {
@@ -43,9 +39,6 @@
                     }
                 );
             }
-        },
-        components: {
-            Navbar
         }
     }
 </script>

@@ -55,7 +55,12 @@
                 .then((isValidated) => {
                     if(!isValidated) return;
                     this.$wamp.call('universe.create', [], {name: this.name, parameters: {}}).then(function(res) {
-                        console.log(res);
+                        if (res.success) {
+                            self.notify("BANG! Created " + self.name + ".");
+                            self.$router.push({name: "join"});
+                        } else {
+                            self.notify("Failed to create the universe: " + res.reason);
+                        }
                     });
                 }).catch(() => {
                     self.notify("Please name the universe.");
