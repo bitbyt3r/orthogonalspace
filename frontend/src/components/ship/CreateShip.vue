@@ -49,7 +49,7 @@
                     this.$wamp.call('ship.create', [], {name: this.name, faction_id: this.$route.params.factionid}).then(function(res) {
                         if (res.success) {
                             self.notify("Created " + self.name + ".");
-                            self.$router.push({name: "join"});
+                            self.$router.push('/ship/' + res.id);
                         } else {
                             self.notify("Failed to create the ship: " + res.reason);
                         }

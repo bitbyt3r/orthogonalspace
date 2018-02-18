@@ -49,7 +49,7 @@
                     this.$wamp.call('faction.create', [], {name: this.name, universe_id: this.$route.params.universeid}).then(function(res) {
                         if (res.success) {
                             self.notify("Created " + self.name + ".");
-                            self.$router.push({name: "universe", params: {id: self.$route.params.universeid}});
+                            self.$router.push('/faction/' + res.id);
                         } else {
                             self.notify("Failed to create the faction: " + res.reason);
                         }

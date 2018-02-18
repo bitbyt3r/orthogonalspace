@@ -33,7 +33,7 @@
                 </md-table-body>
             </md-table>
         </md-table-card>
-        <router-link tag="md-button" to="ship/create" append class="md-fab md-fab-bottom-right">
+        <router-link tag="md-button" :to="'/faction/' + $route.params.factionid + '/ship/create'" class="md-fab md-fab-bottom-right">
             <md-icon>add</md-icon>
         </router-link>
     </div>
