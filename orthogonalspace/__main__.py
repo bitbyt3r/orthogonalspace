@@ -77,7 +77,7 @@ async def step(universes, joint_group):
 
 
 async def game_loop(loop, universes):
-    while True:
+    while running:
         joint_group = ode.JointGroup()
 
         start = loop.time()
