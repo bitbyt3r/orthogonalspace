@@ -1,4 +1,4 @@
-from orthogonalspace import Universe, universes
+from orthogonalspace import Universe, universes, find_universe, UniverseNotFound
 from orthogonalspace.world_generator import WorldGenerator
 from orthogonalspace.views import register
 
@@ -24,7 +24,23 @@ async def universe_list(engine):
 
 @register('universe.get')
 async def universe_get(engine, id):
-    if id in universes:
-        return {"success": True, "universe": universes[id], "reason": ""}
-    else:
-        return {"success": False,"reason": "Unknown universe ID"}
+    try:
+        return {"success": True, "universe": find_universe(id), "reason": ""}
+    except UniverseNotFound:
+        return {"success": False, "reason": "Unknown universe ID"}
+
+
+@register('universe.list_ships')
+async def universe_list_ships(engine, id):
+    try:
+        return {"success": True, "ships": find_universe(id).ships, "reason": ""}
+    except UniverseNotFound:
+        return {"success": False, "reason": "Unknown universe ID"}
+
+
+@register('universe.list_factions')
+async def universe_list_factions(engine, id):
+    try:
+        return {"success": True, "factions": find_universe(id).factions, "reason": ""}
+    except UniverseNotFound:
+        return {"success": False, "reason": "Unknown universe ID"}

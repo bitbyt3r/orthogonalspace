@@ -89,13 +89,18 @@ class Vector:
     def __str__(self):
         return '< {0.x:.4f}, {0.y:.4f}, {0.z:.4f} >'.format(self)
 
+    def to_json(self):
+        return {"x": self.x, "y": self.y, "z": self.z}
+
 
 class Entity:
-    def __init__(self, world, space, geometry="sphere", *args, **kwargs):
-        self.body = ode.Body(world)
+    def __init__(self, id, universe, geometry="sphere", *args, **kwargs):
+        self.id = id
+        self.universe = universe
+        self.body = ode.Body(universe.world)
 
         if geometry == "sphere":
-            self.geom = ode.GeomSphere(space)
+            self.geom = ode.GeomSphere(universe.space)
         else:
             # TODO: Add other geometries
             raise ValueError("geometry must be 'sphere'")
@@ -136,3 +141,13 @@ class Entity:
     @force.setter
     def force(self, value):
         self.body.setForce(value)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "mass": self.mass,
+            "position": self.position,
+            "velocity": self.velocity,
+            "force": self.force,
+            "universe_id": self.universe.id,
+        }
