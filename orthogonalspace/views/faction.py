@@ -41,7 +41,7 @@ async def faction_list_ships(engine, faction_id):
         return {"success": False, "reason": "Unknown faction ID"}
 
     universe = faction.universe
-    ships = {id: ship for id, ship in universe.ships if ship.faction.id == faction.id}
+    ships = {id: ship for id, ship in universe.ships.values() if ship.faction.id == faction.id}
 
     return {"success": True, "reason": "", "ships": ships}
 
