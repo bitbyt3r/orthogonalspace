@@ -1,4 +1,7 @@
 {
+  "db_engine": "postgres",
+  "db_migrations": "migrations/postgres",
+  "db_path": "database.db",
   "db_user": "orthogonalspace",
   "db_host": "orthogonal.space",
   "db_pass": "password",
