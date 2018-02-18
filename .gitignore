@@ -11,3 +11,4 @@ build/
 *.rpm
 web/
 .crossbar/node.pid
+conf.json
