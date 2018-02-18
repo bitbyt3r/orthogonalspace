@@ -17,10 +17,10 @@
                     </md-table-row>
                 </md-table-header>
                 <md-table-body>
-                    <md-table-row v-for="universe,name in universes" :key="name">
+                    <md-table-row v-for="universe,id in universes" :key="id">
                         <md-table-cell>
-                            <router-link :to="'/universe/' + name + '/play'">
-                                <h3>{{ name }}</h3>
+                            <router-link :to="'/universe/' + id + '/play'">
+                                <h3>{{ universe.name }}</h3>
                             </router-link>
                         </md-table-cell>
                         <md-table-cell>
@@ -53,9 +53,7 @@
             var self = this;
             this.$wamp.call('universe.list').then(function(res) {
                 if (res) {
-                    res.forEach(function(universe) {
-                        self.$set(self.universes, universe.name, universe);
-                    });
+                    self.universes = res;
                     self.loaded = true;
                 }
             });

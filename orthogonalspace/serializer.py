@@ -21,6 +21,8 @@ class _WAMPJsonEncoder(json.JSONEncoder):
             return u'\x00' + base64.b64encode(obj).decode('ascii')
         elif type(obj) in conversions:
             return conversions[type(obj)](obj)
+        elif hasattr(obj, "to_json"):
+            return obj.to_json()
         else:
             return json.JSONEncoder.default(self, obj)
 
