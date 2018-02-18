@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Orthogonal Space is really cool</h1>
+        <h1>Welcome to Orthogonal Space!</h1>
     </div>
 </template>
 

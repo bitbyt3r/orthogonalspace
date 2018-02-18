@@ -30,7 +30,6 @@
         },
         mounted() {
             var self = this;
-            self.getLocation();
             var session = this.$cookie.get('session');
             if (session) {
                 this.$wamp.call('session.renew', [], {session: session}).then(

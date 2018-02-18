@@ -8,7 +8,6 @@
             </md-avatar>
 
             <span>Log In/Register</span>
-            <md-icon>expand_more</md-icon>
         </md-button>
 
       <md-menu v-else md-menu-trigger md-direction="bottom left" ref="logoutMenu" class="md-dense" @keydown.esc.prevent="close" :md-offset-x="200" md-offset-y="64">
@@ -16,8 +15,7 @@
           <md-avatar class="md-small">
               <img :src="get_gravatar(user.email)" :alt="user.email">
           </md-avatar>
-              <span>{{ user.full_name }}</span>
-              <md-icon>expand_more</md-icon>
+              <span>{{ user.realname }}</span>
         </md-button>
 
         <md-menu-content>

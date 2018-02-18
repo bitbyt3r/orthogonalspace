@@ -14,8 +14,9 @@ log = txaio.make_logger()
 
 async def validate_recaptcha(recaptcha):
     async with aiohttp.ClientSession() as session:
-        async with session.get("https://www.google.com/recaptcha/api/siteverify", params={"secret": config.get('recaptcha-secret')}) as resp:
-            success = await resp.json()['success']
+        async with session.get("https://www.google.com/recaptcha/api/siteverify", params={"secret": config.get('recaptcha-secret'), "response": recaptcha}) as resp:
+            success = await resp.json()
+            success = success['success']
             return success
 
 @register('session.login', options={'details_arg': 'details'})
@@ -43,7 +44,7 @@ async def login(engine, username=None, password=None, details=None):
                     return {"success": True, "session": session.uuid, "user": user}
             log.error("Login failed for user {}".format(username))
             return False
-                
+
 @register('session.logout', options={'details_arg': 'details'})
 async def logout(engine, session=None, details=None):
     async with engine.acquire() as conn:
@@ -105,7 +106,7 @@ async def user_register(engine, details=None, username="", fullname="", password
         if not auth_backend:
             log.error("Could not locate Local auth backend while registering user {}".format(username))
             return {"success": False}
-        await conn.execute(User.insert().values(username=username, realname=fullname, auth_data=hashstr, email=email, auth_backend=auth_backend))
+        await conn.execute(User.insert().values(username=username, realname=fullname, auth_data=hashstr, email=email, auth_backend=auth_backend.uuid))
         return {"success": True}
 
 @register('user.update', options={'details_arg': 'details'})
