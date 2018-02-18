@@ -47,16 +47,6 @@
         },
         components: {
             Navbar
-        },methods:{
-            getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(this.showPosition);
-            }
-        },
-
-        showPosition(position) {
-            this.$store.commit("set_user_location",position.coords);
-        }
         }
     }
 </script>
