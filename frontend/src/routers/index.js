@@ -41,7 +41,7 @@ export default new Router({
             ]
         },
         {
-            path: '/universe/:name',
+            path: '/universe/:id',
             component: GameLayout,
             children: [
                 {
