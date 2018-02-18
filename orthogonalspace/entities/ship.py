@@ -19,7 +19,7 @@ class Ship(Entity):
             "launched": self.launched,
             "name": self.name,
             "configuration": self.configuration,
-            "faction": self.faction,
+            "faction_id": self.faction.id,
         })
 
         return res

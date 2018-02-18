@@ -14,7 +14,7 @@ async def universe_create(engine, name=None, parameters=None):
 
     universes[new_universe.id] = new_universe
 
-    return {"success": True, "id": new_universe.id, "name": new_universe.name, "reason": ""}
+    return {"success": True, "universe": new_universe, "reason": ""}
 
 
 @register('universe.list')
