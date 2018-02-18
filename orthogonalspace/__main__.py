@@ -65,7 +65,7 @@ def collide_callback(args, obj1: ode.GeomObject, obj2: ode.GeomObject):
 
 
 async def step(universes, joint_group):
-    for universe in universes:
+    for universe in universes.values():
         universe.space.collide((universe.world, joint_group), collide_callback)
         universe.world.step(STEP_SIZE)
 

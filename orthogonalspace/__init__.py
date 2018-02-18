@@ -1,6 +1,6 @@
 import ode
 
-universes = []
+universes = {}
 
 
 class Universe:
