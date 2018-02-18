@@ -114,11 +114,11 @@ class Entity:
 
     @property
     def mass(self):
-        return float(self.body.getMass())
+        return float(self.body.getMass().mass)
 
     @mass.setter
     def mass(self, value):
-        self.body.setMass(value)
+        self.body.getMass().adjust(value)
 
     @property
     def position(self):
