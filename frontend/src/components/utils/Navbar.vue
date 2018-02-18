@@ -69,8 +69,6 @@
 
     export default {
         name: 'navbar',
-        data() {
-        },
         computed: {
             logged_in() {
                 return this.$store.state.user.logged_in;
