@@ -14,7 +14,7 @@
             </router-link>
 
             <router-link v-if="logged_in" class="md-button md-primary md-hide-small" to="/create">
-                <md-icon>add_box</md-icon> Start Game
+                <md-icon>add_box</md-icon> Create Game
             </router-link>
 
             <user-menu class="md-hide-small" style="margin-left: auto"> </user-menu>
@@ -40,7 +40,7 @@
                 </md-list-item>
                 <md-list-item v-if="logged_in">
                     <router-link to="/create" v-on:click.native="closeLeftSidenav">
-                        <h3> <md-icon class="md-primary">add_box</md-icon> Start Game</h3>
+                        <h3> <md-icon class="md-primary">add_box</md-icon> Create Game</h3>
                     </router-link>
                 </md-list-item>
                 <md-list-item>

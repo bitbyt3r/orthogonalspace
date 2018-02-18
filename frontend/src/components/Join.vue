@@ -1,8 +1,8 @@
 <template>
     <div>
         <h1>Universes</h1>
-        <md-list v-if="universes.length">
-            <md-list-item v-for="universe in universes" :key="universe.name"></md-list-item>
+        <md-list v-if="universes">
+            <md-list-item v-for="universe,name in universes" :key="name">{{ name }}</md-list-item>
         </md-list>
         <p v-else>No known universes exist.</p>
     </div>
@@ -15,7 +15,7 @@
         },
         data() {
             return {
-                universes: []
+                universes: {}
             };
         },
         methods: {
@@ -23,9 +23,10 @@
         mounted: function() {
             var self = this;
             this.$wamp.call('universe.list').then(function(res) {
-                console.log(res);
                 if (res) {
-                    self.universes = res;
+                    res.forEach(function(universe) {
+                        self.$set(self.universes, universe.name, universe);
+                    });
                 }
             });
         }
