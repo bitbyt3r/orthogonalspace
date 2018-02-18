@@ -1,5 +1,7 @@
 from orthogonalspace.universe import universes, UniverseNotFound, find_universe, Universe
+from orthogonalspace.faction import factions
 from orthogonalspace.entities.ship import Ship
+from orthogonalspace.entities import all_entities
 from orthogonalspace.views import register
 
 import uuid
@@ -13,12 +15,16 @@ class ShipNotFound(Exception):
 
 
 @register('ship.create')
-async def ship_create(engine, universe_id, faction_id, name=None):
+async def ship_create(engine, faction_id, name=None):
     try:
-        universe = find_universe(universe_id)
+        faction = factions.get(faction_id, None)
 
-        ship = Ship(str(uuid.uuid4()), universe, name=name, faction=faction_id)
+        if not faction:
+            return {"success": False, "reason": "Faction not found"}
 
+        universe = faction.universe
+        ship = Ship(str(uuid.uuid4()), universe, name=name, faction=faction)
+        all_entities[ship.id] = ship
         universe.add_ship(ship)
 
         return {"success": True, "reason": "", "ship": ship}
@@ -27,11 +33,9 @@ async def ship_create(engine, universe_id, faction_id, name=None):
 
 
 @register('ship.launch')
-async def ship_launch(engine, universe_id, ship_id):
+async def ship_launch(engine, ship_id):
     try:
-        universe = find_universe(universe_id)
-
-        ship = universe.ships.get(ship_id, None)
+        ship = all_entities.get(ship_id, None)
         if not ship:
             raise ShipNotFound()
 
@@ -46,11 +50,9 @@ async def ship_launch(engine, universe_id, ship_id):
 
 
 @register('ship.update_parameters')
-async def ship_launch(engine, universe_id, ship_id, parameters=None):
+async def ship_launch(engine, ship_id, parameters=None):
     try:
-        universe = find_universe(universe_id)
-
-        ship = universe.ships.get(ship_id, None)
+        ship = all_entities.get(ship_id, None)
         if not ship:
             raise ShipNotFound()
 
@@ -65,11 +67,9 @@ async def ship_launch(engine, universe_id, ship_id, parameters=None):
 
 
 @register('ship.get')
-async def ship_get(engine, universe_id, ship_id):
+async def ship_get(engine, ship_id):
     try:
-        universe = find_universe(universe_id)
-
-        ship = universe.ships.get(ship_id, None)
+        ship = all_entities.get(ship_id, None)
         if not ship:
             raise ShipNotFound()
 

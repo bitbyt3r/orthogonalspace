@@ -1,3 +1,5 @@
+from orthogonalspace.entities import all_entities
+
 import numbers
 import math
 import ode

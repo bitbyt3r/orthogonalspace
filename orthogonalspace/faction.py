@@ -1,3 +1,6 @@
+factions = {}
+
+
 class Faction:
     def __init__(self, id, name, universe):
         self.id = id
