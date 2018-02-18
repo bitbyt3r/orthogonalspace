@@ -32,6 +32,7 @@ import ode
 
 import orthogonalspace.database
 import orthogonalspace.models
+import orthogonalspace.universe
 import orthogonalspace.views
 import orthogonalspace.configure
 from orthogonalspace.configure import config
@@ -138,7 +139,8 @@ def main():
                     # Usually means the connection to the crossbar server was lost.
                     print("Runtime Error: {}".format(e))
 
-    loop.run_until_complete(asyncio.gather(run_database(), game_loop(loop, orthogonalspace.universes)))
+    loop.run_until_complete(asyncio.gather(run_database(), game_loop(loop,
+                                                                     orthogonalspace.universe.universes)))
 
     loop.close()
 

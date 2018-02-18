@@ -1,4 +1,4 @@
-from orthogonalspace import Universe, universes, find_universe, UniverseNotFound
+from orthogonalspace.universe import universes, UniverseNotFound, find_universe, Universe
 from orthogonalspace.faction import Faction
 from orthogonalspace.world_generator import WorldGenerator
 from orthogonalspace.views import register
