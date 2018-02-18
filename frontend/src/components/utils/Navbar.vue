@@ -9,14 +9,6 @@
                 Orthogonal Space
             </router-link>
 
-            <router-link v-if="logged_in" class="md-button md-primary md-hide-small" to="/universes">
-                <md-icon>videogame_asset</md-icon> Join Game
-            </router-link>
-
-            <router-link v-if="logged_in" class="md-button md-primary md-hide-small" to="/universe/create">
-                <md-icon>add_box</md-icon> Create Game
-            </router-link>
-
             <user-menu class="md-hide-small" style="margin-left: auto"> </user-menu>
         </md-toolbar>
 
@@ -31,16 +23,6 @@
                 <md-list-item>
                     <router-link to="/" v-on:click.native="closeLeftSidenav">
                         <h3> <md-icon class="md-primary">home</md-icon> Orthogonal Space</h3>
-                    </router-link>
-                </md-list-item>
-                <md-list-item v-if="logged_in">
-                    <router-link to="/universes" v-on:click.native="closeLeftSidenav">
-                        <h3> <md-icon class="md-primary">videogame_asset</md-icon> Join Game</h3>
-                    </router-link>
-                </md-list-item>
-                <md-list-item v-if="logged_in">
-                    <router-link to="/universe/create" v-on:click.native="closeLeftSidenav">
-                        <h3> <md-icon class="md-primary">add_box</md-icon> Create Game</h3>
                     </router-link>
                 </md-list-item>
                 <md-list-item>
