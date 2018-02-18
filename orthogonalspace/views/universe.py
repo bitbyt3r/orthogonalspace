@@ -8,7 +8,7 @@ log = txaio.make_logger()
 
 
 @register('universe.create')
-async def universe_create(engine, name=None, parameters=Nnoe):
+async def universe_create(engine, name=None, parameters=None):
     new_universe = Universe(name, world_generator=WorldGenerator(parameters or {}))
 
     universes.append(new_universe)
