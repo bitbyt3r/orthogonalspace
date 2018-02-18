@@ -12,3 +12,7 @@ build/
 web/
 .crossbar/node.pid
 conf.json
+npm-debug.log
+\#*#
+.idea
+*~
