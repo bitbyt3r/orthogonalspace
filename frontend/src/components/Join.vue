@@ -53,6 +53,7 @@
             var self = this;
             this.$wamp.call('universe.list').then(function(res) {
                 if (res) {
+                    console.log(res);
                     self.universes = res;
                     self.loaded = true;
                 }

@@ -21,12 +21,14 @@
 export default {
     data() {
         return {
-            universe: null
+            universe: {
+                name: "UNKNOWN"
+            }
         }
     },
     mounted() {
         var self = this;
-        this.$wamp.call('universe.get', [$route.params.id]).then(function(res) {
+        this.$wamp.call('universe.get', [this.$route.params.id]).then(function(res) {
             self.universe = res;
         });
     }
