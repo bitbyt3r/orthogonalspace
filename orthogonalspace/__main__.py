@@ -49,16 +49,6 @@ serializer.JsonObjectSerializer.serialize = orthogonalspace.serializer.serialize
 serializer.JsonObjectSerializer.unserialize = orthogonalspace.serializer.unserialize
 
 
-class Universe:
-    def __init__(self):
-        self.world = ode.World()
-        self.space = ode.SimpleSpace()
-        self.entities = []
-
-    def add_entity(self, entity):
-        self.entities.append(entity)
-
-
 def collide_callback(args, obj1: ode.GeomObject, obj2: ode.GeomObject):
     if ode.areConnected(obj1.getBody(), obj2.getBody()):
         pass
@@ -86,11 +76,12 @@ async def step(universes, joint_group):
 
 
 async def game_loop(loop, universes):
-    joint_group = ode.JointGroup()
+    while True:
+        joint_group = ode.JointGroup()
 
-    start = loop.time()
-    await step(universes, joint_group)
-    await asyncio.sleep(max(0, 1 / TICK_RATE - loop.time() - start))
+        start = loop.time()
+        await step(universes, joint_group)
+        await asyncio.sleep(max(0, 1 / TICK_RATE - (loop.time() - start)))
 
 
 def main():
@@ -147,9 +138,7 @@ def main():
                     # Usually means the connection to the crossbar server was lost.
                     print("Runtime Error: {}".format(e))
 
-    universes = [Universe()]
-
-    loop.run_until_complete(asyncio.gather(run_database(), game_loop(loop, universes)))
+    loop.run_until_complete(asyncio.gather(run_database(), game_loop(loop, orthogonalspace.universes)))
 
     loop.close()
 
