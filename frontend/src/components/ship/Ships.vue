@@ -3,7 +3,7 @@
         <md-progress v-if="!loaded" style="margin-top: 200px" md-indeterminate></md-progress>
         <md-table-card v-else>
             <md-toolbar>
-                <h1 class="md-title">Universes</h1>
+                <h1 class="md-title">Ships</h1>
                 <md-button class="md-icon-button">
                     <md-icon>search</md-icon>
                 </md-button>
@@ -12,22 +12,22 @@
                 <md-table-header>
                     <md-table-row>
                         <md-table-head md-sort-by='name'>Name</md-table-head>
-                        <md-table-head md-sort-by='players'>Players</md-table-head>
-                        <md-table-head md-sort-by='difficulty'>difficulty</md-table-head>
+                        <md-table-head md-sort-by='guns'>Guns</md-table-head>
+                        <md-table-head md-sort-by='books'>Books</md-table-head>
                     </md-table-row>
                 </md-table-header>
                 <md-table-body>
-                    <md-table-row v-for="universe,id in universes" :key="id">
+                    <md-table-row v-for="ship,id in ships" :key="id">
                         <md-table-cell>
-                            <router-link :to="'/universe/' + id + '/play'">
-                                <h3>{{ universe.name }}</h3>
+                            <router-link :to="'ship/' + id">
+                                <h3>{{ ship.name }}</h3>
                             </router-link>
                         </md-table-cell>
                         <md-table-cell>
-                            <p>0</p>
+                            <p>many</p>
                         </md-table-cell>
                         <md-table-cell>
-                            <p>3</p>
+                            <p>few</p>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
@@ -43,7 +43,7 @@
         },
         data() {
             return {
-                universes: {},
+                ships: {},
                 loaded: false
             };
         },
@@ -51,10 +51,9 @@
         },
         mounted: function() {
             var self = this;
-            this.$wamp.call('universe.list').then(function(res) {
+            this.$wamp.call('ships.list', [], {universe: this.$route.params.universeid, faction: this.$route.params.factionid}).then(function(res) {
                 if (res) {
-                    console.log(res);
-                    self.universes = res;
+                    self.ships = res;
                     self.loaded = true;
                 }
             });

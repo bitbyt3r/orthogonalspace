@@ -29,7 +29,11 @@ export default {
     mounted() {
         var self = this;
         this.$wamp.call('universe.get', [this.$route.params.id]).then(function(res) {
-            self.universe = res;
+            if (res.success) {
+                self.universe = res.universe;
+            } else {
+                self.notify("Could not load universe: " + res.reason);
+            }
         });
     }
 }
