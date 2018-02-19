@@ -17,7 +17,7 @@
                         <md-input-container>
                             <label for="shiptype">Ship Type</label>
                             <md-select @change="update" :disabled="ready" name="shiptype" id="shiptype" v-model="ship.type">
-                              <md-option v-for="shiptype in $store.state.ship.shiptypes" :key="shiptype.id" :value="shiptype.id">{{ shiptype.name }}</md-option>
+                              <md-option v-for="(shiptype, id) in $store.state.ship.shiptypes" :key="id" :value="id">{{ shiptype.name }}</md-option>
                             </md-select>
                         </md-input-container>
                         <md-checkbox @change="update" id="ready" name="ready" v-model="ready">Ready</md-checkbox>
