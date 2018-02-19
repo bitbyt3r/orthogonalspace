@@ -15,6 +15,8 @@ class ShipConfig:
 
     def __init__(self, id, universe, name=None, configuration=None, faction=None):
         self.__type = None
+        self.id = id
+        self.universe = universe
         self.launched = False
         self.name = name or "Spacey McSpaceface"
         self.configuration = configuration or {}
@@ -68,6 +70,8 @@ class ShipConfig:
 
     def to_json(self):
         return {
+            "id": self.id,
+            "universe_id": self.universe.id,
             "launched": self.launched,
             "name": self.name,
             "configuration": self.configuration,
