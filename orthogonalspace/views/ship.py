@@ -16,7 +16,7 @@ class ShipNotFound(Exception):
 
 @register('ship.list_types')
 async def ship_list_types(engine):
-    return {"success": True, "reason": "", "types": Ship.type_map()}
+    return {"success": True, "reason": "", "types": Ship.type_info()}
 
 
 @register('ship.create')

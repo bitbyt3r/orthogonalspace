@@ -105,7 +105,8 @@ def import_submodules(package, recursive=True):
 
 async def load_ship_types():
     # Recursively load everything from utils so that we get all the block and resource types registered
-    SHIPS = 'orthogonalspace.entities.ship'
+    BASE = 'orhogonalspace.entities.'
+    SHIPS = BASE + 'ship'
     import_submodules(SHIPS)
 
     # Add all the resources to the registry
@@ -113,8 +114,8 @@ async def load_ship_types():
         name = sub.__name__
         key = '.'.join((sub.__module__, name))
 
-        if key.startswith(SHIPS):
-            key = key[len(SHIPS):]
+        if key.startswith(BASE):
+            key = key[len(BASE):]
 
         log.debug("Loaded ship %s", key)
         Ship.REGISTRY[key] = sub

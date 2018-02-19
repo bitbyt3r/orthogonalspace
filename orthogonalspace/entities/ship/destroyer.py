@@ -2,7 +2,8 @@ from orthogonalspace.entities.ship import Ship
 
 
 class Destroyer(Ship):
-    DESCRIPTION = "Destroyer"
+    NAME = "Destroyer"
+    DESCRIPTION = "Destroys things, hopefully"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

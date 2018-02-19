@@ -9,8 +9,14 @@ class Ship(Entity):
     REGISTRY = {}
 
     @classmethod
-    def type_map(cls):
-        return {k: getattr(s, "DESCRIPTION", k) for k, s in cls.REGISTRY.items()}
+    def type_info(cls):
+        return {
+            k: {
+                "id": k,
+                "name": getattr(s, "NAME", k),
+                "description": getattr(s, "DESCRIPTION", getattr(s, "NAME", k))
+            } for k, s in cls.REGISTRY.items()
+        }
 
     @classmethod
     def type_name(cls):
