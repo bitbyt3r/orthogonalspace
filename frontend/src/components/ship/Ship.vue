@@ -11,12 +11,12 @@
                     <form>
                         <md-input-container required="true" :class="{'md-input-invalid': errors.has('name')}">
                             <label>Name</label>
-                            <md-input @change="update" name="name" v-model="ship.name" v-validate="'required'"></md-input>
+                            <md-input @change="update" :disabled="ready" name="name" v-model="ship.name" v-validate="'required'"></md-input>
                             <span v-show="errors.has('name')">{{ errors.first('name') }}</span>
                         </md-input-container>
                         <md-input-container>
                             <label for="shiptype">Ship Type</label>
-                            <md-select @change="update" name="shiptype" id="shiptype" v-model="ship.type">
+                            <md-select @change="update" :disabled="ready" name="shiptype" id="shiptype" v-model="ship.type">
                               <md-option v-for="shiptype in $store.state.ship.shiptypes" :key="shiptype.id" :value="shiptype.id">{{ shiptype.name }}</md-option>
                             </md-select>
                         </md-input-container>
@@ -55,7 +55,8 @@ import _ from 'lodash';
 export default {
     data() {
         return {
-            ready: false
+            ready: false,
+            current_sub: null
         }
     },
     computed: {
@@ -76,6 +77,12 @@ export default {
         }
     },
     methods: {
+        allReady() {
+            if (!this.ready) {
+                console.log("Told to enter game when I am not ready!");
+            }
+            this.notify("Starting Game...");
+        },
         update() {
             var self = this;
             this.$nextTick(function() {
@@ -86,11 +93,44 @@ export default {
                 var model = document.getElementById('shipmodel');
                 model.setAttribute("geometry", "primitive", self.geometry);
                 self.$wamp.call('ship.update_configuration', [], {ship_id: self.ship.id, configuration: {type: self.ship.type, name: self.ship.name}});
+                if (self.ready) {
+                    if (self.current_sub) {
+                        self.$wamp.unsubscribe(self.current_sub).then(function(sub) {
+                            self.current_sub = null;
+                            self.$wamp.call('wamp.subscription.lookup', ['ship.readynotice.' + self.$route.params.shipid]).then(function(res) {
+                                if (res) {
+                                    self.$wamp.call('wamp.subscription.count_subscribers', [res]).then(function(num_users) {
+                                        if (!num_users) {
+                                            self.$wamp.call('ship.launch', [self.ship.id]);
+                                            self.$wamp.publish('ship.ready.' + self.$route.params.shipid, [], {}, {exclude_me: false});
+                                        } else {
+                                            console.log("Still waiting on " + num_users + " people.");
+                                        }
+                                    });
+                                } else {
+                                    console.log("Ship is ready! (2)");
+                                    self.$wamp.call('ship.launch', [self.ship.id]);
+                                    self.$wamp.publish('ship.ready.' + self.$route.params.shipid, [], {}, {exclude_me: false});
+                                }
+                            });
+                        });
+                    }
+                } else {
+                    if (!self.current_sub) {
+                        self.$wamp.subscribe('ship.ready.' + self.$route.params.shipid, console.log).then(function(sub) {
+                            self.current_sub = sub;
+                        });
+                    }
+                }
             });
         }
     },
     mounted() {
         var self = this;
+        this.$wamp.subscribe('ship.readynotice.' + this.$route.params.shipid, console.log).then(function(sub) {
+            self.current_sub = sub;
+        });
+        this.$wamp.subscribe('ship.ready.' + this.$route.params.shipid, this.allReady);
         this.$wamp.call('ship.get', [this.$route.params.shipid]).then(function(res) {
             console.log(res);
             if (res.success) {
