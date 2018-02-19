@@ -109,6 +109,8 @@ class Entity:
 
         self.geom.setBody(self.body)
 
+        all_entities[self.id] = self
+
     async def tick(self, dt):
         pass
 

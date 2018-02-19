@@ -38,6 +38,9 @@ class Ship(Entity):
         self.universe.add_entity(self)
         self.launched = True
 
+    async def tick(self, dt):
+        log.debug("Ship Position: {pos}", pos=str(self.position))
+
     @property
     def type(self):
         return type(self).type_name()
