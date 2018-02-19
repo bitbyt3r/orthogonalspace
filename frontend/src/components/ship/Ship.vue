@@ -29,12 +29,9 @@
                         </a-assets>
                         <a-entity id="camera" ref="camera" position="0 1 0" camera></a-entity>
                         <a-text position="0 2.5 -3" align="center" color="#000000" scale="2 2 2" id="shipname"></a-text>
-                        <a-entity position="0 0 -3">
+                        <a-entity position="0 1 -3">
                             <a-animation attribute="rotation" easing="linear" dur="3000" to="0 360 0" repeat="indefinite"></a-animation>
-                            <a-box position="-1 0.5 0" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
-                            <a-sphere position="0 1.25 -2" radius="1.25" color="#EF2D5E" shadow></a-sphere>
-                            <a-cylinder position="1 0.75 0" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
-                            <a-plane position="0 0 -1" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+                            <a-entity position="0 0 0" rotation="0 0 0" material="color: blue" id="shipmodel"></a-entity>
                         </a-entity>
                         <a-sky color="#FFFFFF"></a-sky>
                         </a-scene>
@@ -68,6 +65,12 @@ export default {
             }
             return "Select a ship type to get a description";
         },
+        geometry() {
+            if (this.$store.state.ship.shiptypes.hasOwnProperty(this.ship.type)) {
+                return this.$store.state.ship.shiptypes[this.ship.type].geometry;
+            }
+            return "box";
+        },
         ship() {
             return _.cloneDeep(this.$store.state.ship.ship);
         }
@@ -80,6 +83,8 @@ export default {
                 self.$store.commit('update_ready', self.ready);
                 var text = document.getElementById('shipname');
                 text.setAttribute("value", self.ship.name);
+                var model = document.getElementById('shipmodel');
+                model.setAttribute("geometry", "primitive", self.geometry);
                 self.$wamp.call('ship.update_configuration', [], {ship_id: self.ship.id, configuration: {type: self.ship.type, name: self.ship.name}});
             });
         }
