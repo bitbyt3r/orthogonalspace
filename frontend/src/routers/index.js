@@ -73,7 +73,7 @@ export default new Router({
             component: GameLayout,
             children: [
                 {
-                    path: 'ship/:shipid',
+                    path: ':shipid',
                     name: 'play',
                     component: Play
                 }
