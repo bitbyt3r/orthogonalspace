@@ -21,6 +21,8 @@ from autobahn.asyncio.component import Component, run
 from autobahn.wamp.types import RegisterOptions
 from autobahn.wamp import serializer
 
+import importlib
+import pkgutil
 import asyncio
 import signal
 import concurrent
@@ -37,6 +39,7 @@ import orthogonalspace.views
 import orthogonalspace.configure
 from orthogonalspace.configure import config
 import orthogonalspace.serializer
+from orthogonalspace.entities.ship import Ship
 
 GAME_SPEED = 1.0
 TICK_RATE = 30
@@ -74,6 +77,47 @@ async def step(universes, joint_group):
             await entity.tick(STEP_SIZE)
 
         joint_group.empty()
+
+
+def all_subclasses(cls):
+    for subclass in cls.__subclasses__():
+        yield from all_subclasses(subclass)
+        yield subclass
+
+
+def import_submodules(package, recursive=True):
+    """ Import all submodules of a module, recursively, including subpackages
+
+    :param package: package (name or actual module)
+    :type package: str | module
+    :rtype: dict[str, types.ModuleType]
+    """
+    if isinstance(package, str):
+        package = importlib.import_module(package)
+    results = {}
+    for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
+        full_name = package.__name__ + '.' + name
+        results[full_name] = importlib.import_module(full_name)
+        if recursive and is_pkg:
+            results.update(import_submodules(full_name))
+    return results
+
+
+async def load_ship_types():
+    # Recursively load everything from utils so that we get all the block and resource types registered
+    SHIPS = 'orthogonalspace.entities.ship'
+    import_submodules(SHIPS)
+
+    # Add all the resources to the registry
+    for sub in all_subclasses(Ship):
+        name = sub.__name__
+        key = '.'.join((sub.__module__, name))
+
+        if key.startswith(SHIPS):
+            key = key[len(SHIPS):]
+
+        log.debug("Loaded ship %s", key)
+        Ship.REGISTRY[key] = sub
 
 
 async def game_loop(loop, universes):

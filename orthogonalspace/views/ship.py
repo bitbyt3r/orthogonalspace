@@ -14,6 +14,11 @@ class ShipNotFound(Exception):
     pass
 
 
+@register('ship.list_types')
+async def ship_list_types(engine):
+    return {"success": True, "reason": "", "types": Ship.type_map()}
+
+
 @register('ship.create')
 async def ship_create(engine, faction_id, name=None):
     try:
