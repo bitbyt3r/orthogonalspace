@@ -2,13 +2,14 @@ from orthogonalspace.entities.ship import Ship
 
 
 class Destroyer(Ship):
-    NAME = "Destroyer"
-    DESCRIPTION = "Destroys things, hopefully"
+    METADATA = {
+        "name": "Destroyer",
+        "description": "Destroys things, hopefully",
+        "geometry": "cone",
+    }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def component_slots(self):
+    @classmethod
+    def component_slots(cls):
         return [
             "engine.standard",
             "engine.standard",
@@ -23,3 +24,6 @@ class Destroyer(Ship):
             "shield",
             "antenna",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

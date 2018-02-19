@@ -8,19 +8,23 @@ log = txaio.make_logger()
 class Ship(Entity):
     REGISTRY = {}
 
+    METADATA = {
+        "name": "",
+        "description": "",
+        "geometry": "sphere",
+    }
+
     @classmethod
     def type_info(cls):
-        return {
-            k: {
-                "id": k,
-                "name": getattr(s, "NAME", k),
-                "description": getattr(s, "DESCRIPTION", getattr(s, "NAME", k))
-            } for k, s in cls.REGISTRY.items()
-        }
+        return {k: getattr(s, "METADATA", {}) for k, s in cls.REGISTRY.items()}
 
     @classmethod
     def type_name(cls):
-        return getattr(cls, "NAME", cls.__name__)
+        return getattr(cls, "METADATA", {}).get("name", cls.__name__)
+
+    @classmethod
+    def component_slots(cls):
+        return []
 
     def __init__(self, *args, name=None, configuration=None, faction=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -53,10 +57,6 @@ class Ship(Entity):
         log.info("Components validated with %d empty slots", len(remaining_slots))
         return True
 
-
-    def component_slots(self):
-        return []
-
     def to_json(self):
         res = super().to_json()
         res.update({
@@ -65,6 +65,7 @@ class Ship(Entity):
             "configuration": self.configuration,
             "faction_id": self.faction.id,
             "type": self.type,
+            "slots": self.component_slots(),
         })
 
         return res

@@ -2,6 +2,7 @@ from orthogonalspace.universe import universes, UniverseNotFound, find_universe,
 from orthogonalspace.faction import Faction, factions
 from orthogonalspace.world_generator import WorldGenerator
 from orthogonalspace.views import register
+from orthogonalspace.views.ship import ShipConfig
 
 import uuid
 import txaio
@@ -42,6 +43,8 @@ async def faction_list_ships(engine, faction_id):
 
     universe = faction.universe
     ships = {id: ship for id, ship in universe.ships.items() if ship.faction.id == faction.id}
+    configs = {id: config for id, config in ShipConfig.CONFIGS.items() if config.faction.id == faction.id}
+    ships.update(configs)
 
     return {"success": True, "reason": "", "ships": ships}
 
