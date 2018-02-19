@@ -121,7 +121,7 @@ async def load_ship_types():
 
 
 async def game_loop(loop, universes):
-    load_ship_types()
+    await load_ship_types()
 
     while running:
         joint_group = ode.JointGroup()
