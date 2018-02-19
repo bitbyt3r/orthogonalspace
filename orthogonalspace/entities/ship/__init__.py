@@ -27,13 +27,14 @@ class Ship(Entity):
         return []
 
     def __init__(self, *args, name=None, configuration=None, faction=None, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, geometry=self.type_info().get("geometry", "sphere"), **kwargs)
         self.launched = False
         self.name = name or "Spacey McSpaceface"
         self.configuration = configuration or {}
         self.faction = faction
 
     def launch(self):
+        self.universe.add_ship(self)
         self.universe.add_entity(self)
         self.launched = True
 

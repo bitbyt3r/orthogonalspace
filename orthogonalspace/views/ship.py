@@ -43,10 +43,15 @@ class ShipConfig:
         self.__type = value
 
     def launch(self):
-        # TODO implement creating ship from this config
-        log.warn("Not yet implemented")
-        #self.universe.add_entity(self)
-        self.launched = True
+        if not self.launched:
+            self.launched = True
+            # TODO implement creating ship from this config
+
+            new_ship = self.type_class()(id=self.id, universe=self.universe, name=self.name,
+                                         faction=self.faction, configuration=self.configuration)
+            new_ship.launch()
+
+            del ShipConfig.CONFIGS[self.id]
 
     def slots(self):
         if self.type:

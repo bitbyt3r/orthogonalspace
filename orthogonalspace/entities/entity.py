@@ -109,7 +109,7 @@ class Entity:
 
         self.geom.setBody(self.body)
 
-    def tick(self, dt):
+    async def tick(self, dt):
         pass
 
     @property
