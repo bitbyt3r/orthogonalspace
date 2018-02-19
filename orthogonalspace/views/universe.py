@@ -30,6 +30,19 @@ async def universe_get(engine, id):
         return {"success": False, "reason": "Unknown universe ID"}
 
 
+@register('universe.list_entities')
+async def universe_list_entities(engine, id):
+    try:
+        universe = find_universe(id)
+        return {
+            "success": True,
+            "universe": {entity.id: entity for entity in universe.entities},
+            "reason": ""
+        }
+    except UniverseNotFound:
+        return {"success": False, "reason": "Unknown universe ID"}
+
+
 @register('universe.list_ships')
 async def universe_list_ships(engine, id):
     try:
