@@ -82,6 +82,10 @@ export default {
                 console.log("Told to enter game when I am not ready!");
             }
             this.notify("Starting Game...");
+            this.enlist();
+        },
+        enlist() {
+            this.$router.push('/play/' + this.$route.params.shipid);
         },
         update() {
             var self = this;
