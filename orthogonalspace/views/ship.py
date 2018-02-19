@@ -159,7 +159,7 @@ async def ship_launch(engine, ship_id):
 
 
 @register('ship.update_configuration')
-async def ship_launch(engine, ship_id, configuration=None):
+async def ship_update_configuration(engine, ship_id, configuration=None):
     try:
         ship = ShipConfig.CONFIGS.get(ship_id, None)
         if not ship:
