@@ -71,14 +71,14 @@ async def ship_launch(engine, ship_id):
         return {"success": False, "reason": "Unknown ship"}
 
 
-@register('ship.update_parameters')
-async def ship_launch(engine, ship_id, parameters=None):
+@register('ship.update_configuration')
+async def ship_launch(engine, ship_id, configuration=None):
     try:
         ship = all_entities.get(ship_id, None)
         if not ship:
             raise ShipNotFound()
 
-        ship.parameters.update(parameters or {})
+        ship.configuration.update(configuration or {})
 
         return {"success": True, "reason": ""}
 
