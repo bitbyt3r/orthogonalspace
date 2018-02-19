@@ -51,7 +51,8 @@ export default {
     data() {
         return {
             ship: {
-                name: "UNKNOWN Ship"
+                name: "UNKNOWN Ship",
+                type: ""
             },
             ready: false,
             shiptypes: {}
@@ -76,6 +77,7 @@ export default {
         });
         this.$wamp.call('ship.list_types').then(function(res) {
             if (res.success) {
+                console.log(res);
                 self.shiptypes = res.types;
             }
         });
