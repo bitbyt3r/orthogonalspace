@@ -80,7 +80,7 @@ export default {
                 self.$store.commit('update_ready', self.ready);
                 var text = document.getElementById('shipname');
                 text.setAttribute("value", self.ship.name);
-                self.$wamp.call('ship.update_parameters', [], {ship_id: self.ship.id, parameters: {type: self.ship.type, name: self.ship.name}});
+                self.$wamp.call('ship.update_configuration', [], {ship_id: self.ship.id, configuration: {type: self.ship.type, name: self.ship.name}});
             });
         }
     },
