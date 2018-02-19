@@ -10,7 +10,6 @@ function resolve (dir) {
 module.exports = {
   entry: {
     'index': './src/main.js',
-    // 'editor': './src/editor.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -57,9 +56,9 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [
-          resolve('src'),
-          resolve('test'),
-          resolve('/node_modules/vue-wamp')
+          resolve('src')
+          //resolve('test'),
+          //resolve('/node_modules/vue-wamp')
           // This is done because they are in ES6 syntax which causes an error at the prod build
           // Thus, they are explicitly transpiled to ES5
         ]
