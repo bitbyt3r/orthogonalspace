@@ -1,7 +1,8 @@
 <template>
     <div>
         <md-progress v-if="!loaded" style="margin-top: 200px" md-indeterminate></md-progress>
-        <div>
+        <div v-else>
+            <h1>{{ name }}</h1>
             <md-table-card>
                 <md-toolbar>
                     <h1 class="md-title">Preparing to Launch</h1>
@@ -72,13 +73,13 @@
 
 <script>
     export default {
-        name: 'join',
         components: {
         },
         data() {
             return {
                 ships: {},
-                loaded: false
+                loaded: false,
+                name: ""
             };
         },
         methods: {
@@ -90,6 +91,9 @@
                     self.ships = res.ships;
                     self.loaded = true;
                 }
+            });
+            this.$wamp.call('faction.get', [this.$route.params.factionid]).then(function(res) {
+                self.name = res.faction.name;
             });
         }
     }
