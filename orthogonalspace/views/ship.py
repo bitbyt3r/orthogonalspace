@@ -19,6 +19,23 @@ async def ship_list_types(engine):
     return {"success": True, "reason": "", "types": Ship.type_info()}
 
 
+@register('ship.set_name')
+async def ship_set_name(engine, ship_id, name):
+    try:
+        ship = all_entities.get(ship_id, None)
+        if not ship:
+            raise ShipNotFound()
+
+        ship.name = name
+
+        return {"success": True, "reason": ""}
+
+    except UniverseNotFound:
+        return {"success": False, "reason": "Unknown universe"}
+    except ShipNotFound:
+        return {"success": False, "reason": "Unknown ship"}
+
+
 @register('ship.create')
 async def ship_create(engine, faction_id, name=None):
     try:
