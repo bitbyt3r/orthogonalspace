@@ -86,13 +86,16 @@ export default {
         update() {
             var self = this;
             this.$nextTick(function() {
+                console.log(self.$store.state.ship);
                 self.$store.commit('update_ship', {"name": self.ship.name, "type": self.ship.type})
                 self.$store.commit('update_ready', self.ready);
                 var text = document.getElementById('shipname');
                 text.setAttribute("value", self.ship.name);
                 var model = document.getElementById('shipmodel');
                 model.setAttribute("geometry", "primitive", self.geometry);
-                self.$wamp.call('ship.update_configuration', [], {ship_id: self.ship.id, configuration: {type: self.ship.type, name: self.ship.name}});
+                self.$wamp.call('ship.set_name', [self.ship.id, self.ship.name]);
+                self.$wamp.call('ship.set_type', [self.ship.id, self.ship.type]);
+
                 if (self.ready) {
                     if (self.current_sub) {
                         self.$wamp.unsubscribe(self.current_sub).then(function(sub) {
