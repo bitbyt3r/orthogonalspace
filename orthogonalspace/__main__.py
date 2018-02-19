@@ -104,7 +104,6 @@ def import_submodules(package, recursive=True):
 
 
 async def load_ship_types():
-    # Recursively load everything from utils so that we get all the block and resource types registered
     BASE = 'orthogonalspace.entities.'
     SHIPS = BASE + 'ship'
     import_submodules(SHIPS)
