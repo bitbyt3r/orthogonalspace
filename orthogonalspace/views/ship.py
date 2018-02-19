@@ -184,6 +184,10 @@ async def ship_update_configuration(engine, ship_id, configuration=None):
 async def ship_get(engine, ship_id):
     try:
         ship = ShipConfig.CONFIGS.get(ship_id, None)
+
+        if not ship:
+            ship = all_entities.get(ship_id, None)
+
         if not ship:
             raise ShipNotFound()
 
