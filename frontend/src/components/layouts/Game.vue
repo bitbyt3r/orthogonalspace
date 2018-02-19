@@ -10,5 +10,8 @@
 
 <script>
 export default {
+    mounted() {
+        console.log("Playing the game!");
+    }
 }
 </script>

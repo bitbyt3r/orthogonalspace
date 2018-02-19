@@ -14,6 +14,7 @@ import Faction from '../components/faction/Faction.vue'
 
 import CreateShip from '../components/ship/CreateShip.vue'
 import Ship from '../components/ship/Ship.vue'
+import ShipConfig from '../components/ship/ShipConfig.vue'
 
 import Play from '../components/game/Play.vue'
 
@@ -57,6 +58,11 @@ export default new Router({
                     component: Faction,
                 },
                 {
+                    path: 'shipconfig/:shipid',
+                    name: 'shipconfig',
+                    component: ShipConfig
+                },
+                {
                     path: 'ship/:shipid',
                     name: 'ship',
                     component: Ship
@@ -73,7 +79,7 @@ export default new Router({
             component: GameLayout,
             children: [
                 {
-                    path: 'ship/:shipid',
+                    path: ':shipid',
                     name: 'play',
                     component: Play
                 }

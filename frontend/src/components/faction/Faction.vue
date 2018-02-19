@@ -18,9 +18,9 @@
                         </md-table-row>
                     </md-table-header>
                     <md-table-body>
-                        <md-table-row v-for="ship,id in ships" v-if="!ship.launched" :key="id">
+                        <md-table-row v-for="ship,id in shipconfigs" :key="id">
                             <md-table-cell>
-                                <router-link :to="'/ship/' + id">
+                                <router-link :to="'/shipconfig/' + id">
                                     <h3>{{ ship.name }}</h3>
                                 </router-link>
                             </md-table-cell>
@@ -48,7 +48,7 @@
                         </md-table-row>
                     </md-table-header>
                     <md-table-body>
-                        <md-table-row v-for="ship,id in ships" v-if="ship.launched" :key="id">
+                        <md-table-row v-for="ship,id in ships" :key="id">
                             <md-table-cell>
                                 <router-link :to="'/ship/' + id">
                                     <h3>{{ ship.name }}</h3>
@@ -78,6 +78,7 @@
         data() {
             return {
                 ships: {},
+                shipconfigs: {},
                 loaded: false,
                 name: ""
             };
@@ -89,6 +90,12 @@
             this.$wamp.call('faction.list_ships', [this.$route.params.factionid]).then(function(res) {
                 if (res) {
                     self.ships = res.ships;
+                    self.loaded = true;
+                }
+            });
+            this.$wamp.call('faction.list_shipconfigs', [this.$route.params.factionid]).then(function(res) {
+                if (res) {
+                    self.shipconfigs = res.shipconfigs;
                     self.loaded = true;
                 }
             });
